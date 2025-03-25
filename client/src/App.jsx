@@ -8,7 +8,7 @@ function App() {
   useEffect(()=>{getProductData();},[]);
 
   async function getProductData (){
-    try{const response = await axios.get("http://localhost:4001/products3")
+    try{const response = await axios.get("http://localhost:4001/products")
     setStateData("complete")
     setProductData(response.data.data);
     console.log(response.data.data)
