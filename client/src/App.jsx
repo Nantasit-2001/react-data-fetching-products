@@ -4,13 +4,17 @@ import { useState,useEffect } from "react";
 
 function App() {
   const [productData,setProductData] = useState([])
-  
+  const [stateData,setStateData] = useState("Loading . . .")
   useEffect(()=>{getProductData();},[]);
 
   async function getProductData (){
-    const response = await axios.get("http://localhost:4001/products")
+    try{const response = await axios.get("http://localhost:4001/products3")
+    setStateData("complete")
     setProductData(response.data.data);
     console.log(response.data.data)
+  }catch(error){
+    setStateData("Fetching Error "+ error )
+  }
   }
   async function deleteProductData(id) {
     try{
@@ -28,7 +32,7 @@ function App() {
         <h1 className="app-title">Products</h1>
       </div>
       <div className="product-list">
-        {productData.map(objProductData=>{return(
+        {stateData==="complete"? productData.map(objProductData=>{return(
         
         <div className="product" key={objProductData.id}>
           <div className="product-preview">
@@ -47,7 +51,7 @@ function App() {
               <button className="delete-button" onClick={()=>deleteProductData(objProductData.id)}>x</button> 
         </div>
       
-      )})}
+      )}):<h1>{stateData}</h1>}
       </div>
     </div>
   );
