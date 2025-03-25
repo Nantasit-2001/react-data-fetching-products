@@ -12,6 +12,15 @@ function App() {
     setProductData(response.data.data);
     console.log(response.data.data)
   }
+  async function deleteProductData(id) {
+    try{
+    await axios.delete(`http://localhost:4001/products/${id}`)
+    const updateProductData = productData.filter(item=>(item.id !== id))
+    setProductData(updateProductData);
+    }catch(error){
+      console.log(error)
+    }
+  }
 
   return (
     <div className="App">
@@ -35,7 +44,7 @@ function App() {
                 <h2>{objProductData.price}</h2>
                 <p>{objProductData.description}</p>
               </div>
-              <button className="delete-button">x</button> 
+              <button className="delete-button" onClick={()=>deleteProductData(objProductData.id)}>x</button> 
         </div>
       
       )})}
